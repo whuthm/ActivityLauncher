@@ -1,0 +1,17 @@
+apply plugin: 'java'
+
+//targetCompatibility = rootProject.ext.targetCompatibilityVersion
+//sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':activity-launcher-annotations')
+
+    compile deps.javapoet
+    compile deps.autoservice
+    testCompile deps.junit
+}

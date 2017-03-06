@@ -1,0 +1,1 @@
+include ':activity-launcher-sample', ':activity-launcher', ':activity-launcher-annotations', ':activity-launcher-compiler'

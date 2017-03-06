@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ActivityLauncher.iml" filepath="$PROJECT_DIR$/ActivityLauncher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/activity-launcher/activity-launcher.iml" filepath="$PROJECT_DIR$/activity-launcher/activity-launcher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/activity-launcher-annotations/activity-launcher-annotations.iml" filepath="$PROJECT_DIR$/activity-launcher-annotations/activity-launcher-annotations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/activity-launcher-compiler/activity-launcher-compiler.iml" filepath="$PROJECT_DIR$/activity-launcher-compiler/activity-launcher-compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/activity-launcher-sample/activity-launcher-sample.iml" filepath="$PROJECT_DIR$/activity-launcher-sample/activity-launcher-sample.iml" />
+    </modules>
+  </component>
+</project>
