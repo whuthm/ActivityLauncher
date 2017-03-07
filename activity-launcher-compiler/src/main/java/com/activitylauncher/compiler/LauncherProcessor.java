@@ -7,6 +7,7 @@ import com.google.auto.service.AutoService;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -17,8 +18,6 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
-import javax.lang.model.util.Types;
 
 import static javax.tools.Diagnostic.Kind.ERROR;
 import static javax.tools.Diagnostic.Kind.NOTE;
@@ -33,16 +32,11 @@ public class LauncherProcessor extends AbstractProcessor {
 
     private static final String DEFAULT_CLASS_NAME = "ActivityLauncher";
 
-    private Elements elementUtils;
-    private Types typeUtils;
     private Filer filer;
 
     @Override
     public synchronized void init(ProcessingEnvironment env) {
         super.init(env);
-
-        elementUtils = env.getElementUtils();
-        typeUtils = env.getTypeUtils();
         filer = env.getFiler();
     }
 
@@ -64,11 +58,17 @@ public class LauncherProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment ev) {
         String launcherPackageName = getLauncherPackageName(ev);
-        if (launcherPackageName != null && !"".equals(launcherPackageName)) {
-            note("process : launcherPackageName=" + launcherPackageName);
-            LaunchClass launcherClass = new LaunchClass(launcherPackageName, getLauncherClassName(ev), parameters);
+        String launcherClassName = getLauncherClassName(ev);
+        if (launcherPackageName != null && !"".equals(launcherPackageName) && launcherClassName != null && !"".equals(launcherClassName)) {
+            note("process : launcherPackageName=" + launcherPackageName + ", launcherClassName=" + launcherClassName);
+            LaunchClassesFinder finder = new LaunchClassesFinder(ev);
+            List<LaunchClass> launchClasses = finder.find();
+            for (LaunchClass launchClass : launchClasses) {
+                note(launchClass.getName() + "," + launchClass.getSimpleName());
+            }
+            LauncherClassGenerator generator = new LauncherClassGenerator(filer, launcherPackageName, launcherClassName, launchClasses);
             try {
-                launcherClass.brewJava().writeTo(filer);
+                generator.generate();
             } catch (IOException e) {
                 e.printStackTrace();
                 error("Unable to write activity launcher!!!");

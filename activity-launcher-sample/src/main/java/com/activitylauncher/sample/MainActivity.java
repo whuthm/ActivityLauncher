@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.activitylauncher.LaunchPad;
+import com.activitylauncher.ActivityLauncherUtils;
 
 /**
  * Created by huangming on 2017/2/17.
@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.e("MainActivity", "before");
-                LaunchPad.launch(MainActivity.this, Test1Activity.class, "whuthm", 10);
+                //ActivityLauncherUtils.startActivity(MainActivity.this, Test1Activity.class, "whuthm", 10);
+                ActivityLauncher.startTest1Activity(MainActivity.this, "whuthm", 11);
                 Log.e("MainActivity", "after");
             }
         });

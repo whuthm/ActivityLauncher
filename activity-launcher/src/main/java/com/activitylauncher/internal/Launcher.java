@@ -108,6 +108,22 @@ public enum Launcher {
         public Context getContext(Object source) {
             return ((Fragment) source).getActivity();
         }
+    },
+    UNKNOWN {
+        @Override
+        public void startActivity(Object source, Intent intent) {
+
+        }
+
+        @Override
+        public void startActivityForResult(Object source, Intent intent, int requestCode) {
+
+        }
+
+        @Override
+        public Context getContext(Object source) {
+            return null;
+        }
     };
 
 
@@ -116,5 +132,23 @@ public enum Launcher {
     public abstract void startActivityForResult(Object source, Intent intent, int requestCode);
 
     public abstract Context getContext(Object source);
+
+    public static Launcher get(Object source) {
+        if (source instanceof Activity) {
+            return ACTIVITY;
+        } else if (source instanceof Fragment) {
+            return FRAGMENT;
+        } else if (source instanceof Dialog) {
+            return DIALOG;
+        } else if (source instanceof View) {
+            return VIEW;
+        } else if (source instanceof Context) {
+            return CONTEXT;
+        } else if (source instanceof Activity) {
+            return ACTIVITY;
+        } else {
+            return UNKNOWN;
+        }
+    }
 
 }

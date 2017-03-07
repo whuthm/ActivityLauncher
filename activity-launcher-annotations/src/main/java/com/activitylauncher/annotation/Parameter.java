@@ -19,8 +19,8 @@ public @interface Parameter {
     Type type() default Type.STRING;
 
     enum Type {
-        INT,
-        STRING
+        BOOLEAN, BYTE, SHORT, INT, LONG, CHAR, FLOAT, DOUBLE, STRING,
+        BOOLEAN_ARRAY, BYTE_ARRAY
     }
 
 }

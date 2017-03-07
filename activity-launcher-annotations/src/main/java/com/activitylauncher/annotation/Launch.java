@@ -19,4 +19,6 @@ public @interface Launch {
 
     Parameter[] parameters();
 
+    int requestCode() default 0;
+
 }

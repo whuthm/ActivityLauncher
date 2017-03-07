@@ -1,53 +1,32 @@
 package com.activitylauncher;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.activitylauncher.annotation.Launch;
 import com.activitylauncher.annotation.Parameter;
 import com.activitylauncher.internal.Launcher;
-
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by huangming on 2017/2/17.
- *
+ * <p>
  * 发射台
  */
 
-public class LaunchPad {
+public class ActivityLauncherUtils {
 
     private static Map<Class<?>, Parameter[]> parameterAnnotationsByType = new HashMap<>();
 
-    public static void launchForResult(Activity source, Class<?> target, int requestCode, Object... parameters) {
-        launchForResult(Launcher.ACTIVITY, source, target, requestCode, parameters);
-    }
-
-    public static void launch(Activity source, Class<?> target, Object... parameters) {
-        Log.e("MainActivity", "launch");
-        launch(Launcher.ACTIVITY, source, target, parameters);
-    }
-
-    public static void launchForResult(Fragment source, Class<?> target, int requestCode, Object... parameters) {
-        launchForResult(Launcher.FRAGMENT, source, target, requestCode, parameters);
-    }
-
-    public static void launch(Fragment source, Class<?> target, Object... parameters) {
-        launch(Launcher.FRAGMENT, source, target, parameters);
-    }
-
-    public static void launchForResult(Launcher launcher, Object source, Class<?> target, int requestCode, Object... parameters) {
+    public static void startActivity(Object source, Class<?> target, Object... parameters) {
+        Launcher launcher = Launcher.get(source);
         Intent intent = createIntent(launcher, source, target, parameters);
-        launcher.startActivityForResult(source, intent, requestCode);
-    }
-
-    public static void launch(Launcher launcher, Object source, Class<?> target, Object... parameters) {
-        Intent intent = createIntent(launcher, source, target, parameters);
-        launcher.startActivity(source, intent);
+        int requestCode = obtainRequestCode(target);
+        if (requestCode > 0) {
+            launcher.startActivityForResult(source, intent, requestCode);
+        } else {
+            launcher.startActivity(source, intent);
+        }
     }
 
     private static Parameter[] obtainParameterAnnotations(Class<?> target) {
@@ -58,6 +37,11 @@ public class LaunchPad {
         Parameter[] parameterAnnotations = launch != null ? launch.parameters() : null;
         parameterAnnotationsByType.put(target, parameterAnnotations);
         return parameterAnnotations;
+    }
+
+    private static int obtainRequestCode(Class<?> target) {
+        Launch launch = target.getAnnotation(Launch.class);
+        return launch.requestCode();
     }
 
     private static Intent createIntent(Launcher launcher, Object source, Class<?> target, Object... parameters) {

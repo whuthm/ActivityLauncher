@@ -18,7 +18,7 @@ import com.activitylauncher.sample.R;
 @Launch(parameters = {
         @Parameter(name = ParameterKeys.KEY_NAME, type = Parameter.Type.STRING),
         @Parameter(name = ParameterKeys.KEY_NICK, type = Parameter.Type.STRING)
-})
+}, requestCode = MainFragment.REQUEST_CODE_TEST2)
 public class Test2Activity extends AppCompatActivity {
 
     @Override

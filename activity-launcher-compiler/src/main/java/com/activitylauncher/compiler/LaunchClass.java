@@ -1,6 +1,7 @@
 package com.activitylauncher.compiler;
 
-import java.util.List;
+import com.activitylauncher.annotation.Launch;
+import com.activitylauncher.annotation.Parameter;
 
 /**
  * Created by huangming on 2017/2/20.
@@ -9,46 +10,49 @@ import java.util.List;
 final class LaunchClass {
 
     /**
-     * 启动包名
-     */
-    private final String packageName;
-    /**
      * 启动类名
      */
-    private final String className;
-    /**
-     * 启动参数
-     */
-    private final List<LaunchParameter> parameters;
+    private final String name;
 
-    LaunchClass(String packageName, String className, List<LaunchParameter> parameters) {
-        this.packageName = packageName;
-        this.className = className;
-        this.parameters = parameters;
+    private final Launch launch;
+
+    private final String simpleName;
+
+    LaunchClass(String name, String simpleName, Launch launch) {
+        this.name = name;
+        this.simpleName = simpleName;
+        this.launch = launch;
     }
 
-    public String getPackageName() {
-        return packageName;
+    public String getName() {
+        return name;
     }
 
-    public String getClassName() {
-        return className;
+    public String getSimpleName() {
+        return simpleName;
     }
 
     public int getParameterCount() {
-        return parameters != null ? parameters.size() : 0;
+        return  launch.parameters() != null ? launch.parameters().length : 0;
     }
 
-    public LaunchParameter getParameter(int index) {
-        return parameters.get(index);
+    public Parameter getParameter(int index) {
+        return launch.parameters()[index];
+    }
+
+    public int getRequestCode() {
+        return launch.requestCode();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("LaunchClass(");
-        sb.append("packageName=").append(packageName).append("; ");
-        sb.append("className=").append(className).append("; ");
-        sb.append("parameters").append(parameters);
+        sb.append("name=").append(name).append("; ");
+        sb.append("simpleName=").append(simpleName).append("; ");
+        if(launch.parameters() != null) {
+            sb.append("parameters").append(launch.parameters()).append("; ");
+        }
+        sb.append("requestCode").append(launch.requestCode());
         sb.append(")");
         return sb.toString();
     }

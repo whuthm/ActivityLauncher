@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.activitylauncher.LaunchPad;
+import com.activitylauncher.ActivityLauncherUtils;
 
 /**
  * Created by huangming on 2017/2/17.
@@ -17,7 +17,7 @@ import com.activitylauncher.LaunchPad;
 
 public class MainFragment extends Fragment {
 
-    private static final int REQUEST_CODE_TEST2 = 1001;
+    public static final int REQUEST_CODE_TEST2 = 1001;
 
     TextView resultTextView;
 
@@ -35,7 +35,8 @@ public class MainFragment extends Fragment {
         view.findViewById(R.id.btn_frag_launch_test2_activity).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LaunchPad.launchForResult(MainFragment.this, Test2Activity.class, REQUEST_CODE_TEST2, "whuthm 1", "whuthm");
+                //ActivityLauncherUtils.startActivity(MainFragment.this, Test2Activity.class, "whuthm 1", "whuthm");
+                ActivityLauncher.startTest2Activity(MainFragment.this, "whuthm 1111", "whuthm");
             }
         });
     }
